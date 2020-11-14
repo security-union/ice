@@ -1,11 +1,8 @@
+use std::net::SocketAddr;
 
-use std::str::FromStr;
-use std::string::ToString;
-use std::net::{ SocketAddr, lookup_host };
+use url::Url;
 
-use ::url::Url;
-
-use super::{STUN_PORT, STUNS_PORT};
+use super::{STUNS_PORT, STUN_PORT};
 
 /// [RFC7064]:
 ///     https://tools.ietf.org/html/rfc7064
@@ -29,8 +26,7 @@ use super::{STUN_PORT, STUNS_PORT};
 ///      | stun:example.org:8000 |
 ///      +-----------------------+
 
-
-pub fn url_parse (s: &str) -> Result<SocketAddr, &'static str> {
+pub fn url_parse(s: &str) -> Result<SocketAddr, &'static str> {
     let mut uri = s.to_owned();
     if uri.starts_with("stun") == false && uri.starts_with("stuns") == false {
         uri = format!("stun://{}", uri);
@@ -42,10 +38,8 @@ pub fn url_parse (s: &str) -> Result<SocketAddr, &'static str> {
     }
     match Url::parse(uri.as_ref()) {
         Ok(url) => {
-            let scheme   = url.scheme();
+            let scheme = url.scheme();
             let host_str = url.host_str(); // Option
-            let port     = url.port();     // Option
-
             if scheme != "stun" && scheme != "stuns" {
                 return Err("scheme error");
             }
@@ -55,28 +49,20 @@ pub fn url_parse (s: &str) -> Result<SocketAddr, &'static str> {
             let port = match url.port() {
                 Some(port) => port,
                 None => match scheme {
-                    "stun"  => STUN_PORT,
+                    "stun" => STUN_PORT,
                     "stuns" => STUNS_PORT,
-                    _       => unreachable!()
-                }
-            };
-            let mut loopup_host_iter = lookup_host(host_str.unwrap()).unwrap();
-            let socket_addr = match loopup_host_iter.next() {
-                Some(mut socket_addr) => {
-                    socket_addr.set_port(port);
-                    socket_addr
+                    _ => unreachable!(),
                 },
-                None => return Err("lookup host failure.")
             };
+            let server_details = format!("{}:{}", host_str.unwrap(), port);
+            let socket_addr = server_details
+                .parse()
+                .expect("Unable to parse socket address");
             Ok(socket_addr)
-        },
-        Err(_)  => Err("url parse error.")
+        }
+        Err(_) => Err("url parse error."),
     }
 }
 
-pub fn is_stun(){
-
-}
-pub fn is_stuns(){
-
-}
+pub fn is_stun() {}
+pub fn is_stuns() {}

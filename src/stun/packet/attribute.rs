@@ -1,7 +1,5 @@
-
-use std::str::FromStr;
-use std::string::ToString;
 use std::net::SocketAddr;
+use std::string::ToString;
 
 use super::ErrorCode;
 
@@ -27,9 +25,9 @@ Range:
 0x000B  Reserved; was REFLECTED-FROM    [RFC5389]
 0x000C  CHANNEL-NUMBER  [RFC5766]
 0x000D  LIFETIME    [RFC5766]
-0x000E-0x000F   Reserved    
+0x000E-0x000F   Reserved
 0x0010  Reserved (was BANDWIDTH)    [RFC5766]
-0x0011  Reserved    
+0x0011  Reserved
 0x0012  XOR-PEER-ADDRESS    [RFC5766]
 0x0013  DATA    [RFC5766]
 0x0014  REALM   [RFC5389]
@@ -40,26 +38,26 @@ Range:
 0x0019  REQUESTED-TRANSPORT [RFC5766]
 0x001A  DONT-FRAGMENT   [RFC5766]
 0x001B  ACCESS-TOKEN    [RFC7635]
-0x001C-0x001F   Unassigned  
+0x001C-0x001F   Unassigned
 0x0020  XOR-MAPPED-ADDRESS  [RFC5389]
 0x0021  Reserved (was TIMER-VAL)    [RFC5766]
 0x0022  RESERVATION-TOKEN   [RFC5766]
-0x0023  Reserved    
+0x0023  Reserved
 0x0024  PRIORITY    [RFC5245]
 0x0025  USE-CANDIDATE   [RFC5245]
 0x0026  PADDING [RFC5780]
 0x0027  RESPONSE-PORT   [RFC5780]
-0x0028-0x0029   Reserved    
+0x0028-0x0029   Reserved
 0x002A  CONNECTION-ID   [RFC6062]
-0x002B-0x002F   Unassigned  
-0x0030  Reserved    
-0x0031-0x7FFF   Unassigned  
-0x8000-0x8021   Unassigned  
+0x002B-0x002F   Unassigned
+0x0030  Reserved
+0x0031-0x7FFF   Unassigned
+0x8000-0x8021   Unassigned
 0x8022  SOFTWARE    [RFC5389]
 0x8023  ALTERNATE-SERVER    [RFC5389]
-0x8024  Reserved    
+0x8024  Reserved
 0x8025  TRANSACTION_TRANSMIT_COUNTER    [RFC7982]
-0x8026  Reserved    
+0x8026  Reserved
 0x8027  CACHE-TIMEOUT   [RFC5780]
 0x8028  FINGERPRINT [RFC5389]
 0x8029  ICE-CONTROLLED  [RFC5245]
@@ -68,13 +66,13 @@ Range:
 0x802C  OTHER-ADDRESS   [RFC5780]
 0x802D  ECN-CHECK STUN  [RFC6679]
 0x802E  THIRD-PARTY-AUTHORIZATION   [RFC7635]
-0x802F  Unassigned  
+0x802F  Unassigned
 0x8030  MOBILITY-TICKET [RFC8016]
-0x8031-0xBFFF   Unassigned  
+0x8031-0xBFFF   Unassigned
 0xC000  CISCO-STUN-FLOWDATA [Dan_Wing]
 0xC001  ENF-FLOW-DESCRIPTION    [Pål_Erik_Martinsen]
 0xC002  ENF-NETWORK-STATUS  [Pål_Erik_Martinsen]
-0xC003-0xFFFF   Unassigned  
+0xC003-0xFFFF   Unassigned
 
 
 0x0000  Reserved    [RFC5389]
@@ -83,62 +81,62 @@ Range:
 0x0005  Reserved; was CHANGED-ADDRESS   [RFC5389]
 0x0007  Reserved; was PASSWORD  [RFC5389]
 0x000B  Reserved; was REFLECTED-FROM    [RFC5389]
-0x000E-0x000F   Reserved   
+0x000E-0x000F   Reserved
 0x0010  Reserved (was BANDWIDTH)    [RFC5766]
-0x0011  Reserved    
+0x0011  Reserved
 0x0021  Reserved (was TIMER-VAL)    [RFC5766]
-0x0023  Reserved   
-0x0028-0x0029   Reserved  
-0x0030  Reserved      
-0x8024  Reserved   
-0x8026  Reserved  
+0x0023  Reserved
+0x0028-0x0029   Reserved
+0x0030  Reserved
+0x8024  Reserved
+0x8026  Reserved
 
-0x001C-0x001F   Unassigned 
-0x002B-0x002F   Unassigned 
-0x0031-0x7FFF   Unassigned  
-0x8000-0x8021   Unassigned   
-0x802F  Unassigned   
-0x8031-0xBFFF   Unassigned  
-0xC003-0xFFFF   Unassigned  
+0x001C-0x001F   Unassigned
+0x002B-0x002F   Unassigned
+0x0031-0x7FFF   Unassigned
+0x8000-0x8021   Unassigned
+0x802F  Unassigned
+0x8031-0xBFFF   Unassigned
+0xC003-0xFFFF   Unassigned
 **/
 
 // Message Attribute Type
 #[derive(Debug)]
 pub enum AttributeType {
-    MappedAddress,    // 0x0001  MAPPED-ADDRESS  [RFC5389]
-    ResponseAddress,  // 0x0002  Reserved; was RESPONSE-ADDRESS  [RFC5389]
-    ChangeRequest,    // 0x0003  CHANGE-REQUEST  [RFC5780]
-    SourceAddress,    // 0x0004  Reserved; was SOURCE-ADDRESS    [RFC5389]
-    ChangedAddress,   // 0x0005  Reserved; was CHANGED-ADDRESS   [RFC5389]
-    UserName,         // 0x0006  USERNAME    [RFC5389]
-    Password,         // 0x0007  Reserved; was PASSWORD  [RFC5389]
-    MessageIntegrity, // 0x0008  MESSAGE-INTEGRITY   [RFC5389]
-    ErrorCode,        // 0x0009  ERROR-CODE  [RFC5389]
-    UnknownAttribute, // 0x000A  UNKNOWN-ATTRIBUTES  [RFC5389]
-    ReflectedFrom,    // 0x000B  Reserved; was REFLECTED-FROM    [RFC5389]
-    ChannelNumber,    // 0x000C  CHANNEL-NUMBER  [RFC5766]
-    LifeTime,         // 0x000D  LIFETIME    [RFC5766]
-    BandWidth,        // 0x0010  Reserved (was BANDWIDTH)    [RFC5766]
-    XorPeerAddress,   // 0x0012  XOR-PEER-ADDRESS    [RFC5766]
-    Data,             // 0x0013  DATA    [RFC5766]
-    Realm,            // 0x0014  REALM   [RFC5389]
-    Nonce,            // 0x0015  NONCE   [RFC5389]
-    XorRelayedAddress,// 0x0016  XOR-RELAYED-ADDRESS [RFC5766]
-    RequestAddressFamily, // 0x0017  REQUESTED-ADDRESS-FAMILY    [RFC6156]
-    EvenPort,             // 0x0018  EVEN-PORT   [RFC5766]
-    RequestedTransport,   // 0x0019  REQUESTED-TRANSPORT [RFC5766]
-    DontFragment,         // 0x001A  DONT-FRAGMENT   [RFC5766]
-    AccessToken,          // 0x001B  ACCESS-TOKEN    [RFC7635]
-    XorMappedAddress,     // 0x0020  XOR-MAPPED-ADDRESS  [RFC5389]
-    TimerVal,             // 0x0021  Reserved (was TIMER-VAL)    [RFC5766]
-    ReservationToken,     // 0x0022  RESERVATION-TOKEN   [RFC5766]
-    Priority,             // 0x0024  PRIORITY    [RFC5245]
-    UseCandidate,         // 0x0025  USE-CANDIDATE   [RFC5245]
-    Padding,              // 0x0026  PADDING [RFC5780]
-    ResponsePort,         // 0x0027  RESPONSE-PORT   [RFC5780]
-    ConnectionID,         // 0x002A  CONNECTION-ID   [RFC6062]
-    Software,             // 0x8022  SOFTWARE    [RFC5389]
-    AlternateServer,      // 0x8023  ALTERNATE-SERVER    [RFC5389]
+    MappedAddress,              // 0x0001  MAPPED-ADDRESS  [RFC5389]
+    ResponseAddress,            // 0x0002  Reserved; was RESPONSE-ADDRESS  [RFC5389]
+    ChangeRequest,              // 0x0003  CHANGE-REQUEST  [RFC5780]
+    SourceAddress,              // 0x0004  Reserved; was SOURCE-ADDRESS    [RFC5389]
+    ChangedAddress,             // 0x0005  Reserved; was CHANGED-ADDRESS   [RFC5389]
+    UserName,                   // 0x0006  USERNAME    [RFC5389]
+    Password,                   // 0x0007  Reserved; was PASSWORD  [RFC5389]
+    MessageIntegrity,           // 0x0008  MESSAGE-INTEGRITY   [RFC5389]
+    ErrorCode,                  // 0x0009  ERROR-CODE  [RFC5389]
+    UnknownAttribute,           // 0x000A  UNKNOWN-ATTRIBUTES  [RFC5389]
+    ReflectedFrom,              // 0x000B  Reserved; was REFLECTED-FROM    [RFC5389]
+    ChannelNumber,              // 0x000C  CHANNEL-NUMBER  [RFC5766]
+    LifeTime,                   // 0x000D  LIFETIME    [RFC5766]
+    BandWidth,                  // 0x0010  Reserved (was BANDWIDTH)    [RFC5766]
+    XorPeerAddress,             // 0x0012  XOR-PEER-ADDRESS    [RFC5766]
+    Data,                       // 0x0013  DATA    [RFC5766]
+    Realm,                      // 0x0014  REALM   [RFC5389]
+    Nonce,                      // 0x0015  NONCE   [RFC5389]
+    XorRelayedAddress,          // 0x0016  XOR-RELAYED-ADDRESS [RFC5766]
+    RequestAddressFamily,       // 0x0017  REQUESTED-ADDRESS-FAMILY    [RFC6156]
+    EvenPort,                   // 0x0018  EVEN-PORT   [RFC5766]
+    RequestedTransport,         // 0x0019  REQUESTED-TRANSPORT [RFC5766]
+    DontFragment,               // 0x001A  DONT-FRAGMENT   [RFC5766]
+    AccessToken,                // 0x001B  ACCESS-TOKEN    [RFC7635]
+    XorMappedAddress,           // 0x0020  XOR-MAPPED-ADDRESS  [RFC5389]
+    TimerVal,                   // 0x0021  Reserved (was TIMER-VAL)    [RFC5766]
+    ReservationToken,           // 0x0022  RESERVATION-TOKEN   [RFC5766]
+    Priority,                   // 0x0024  PRIORITY    [RFC5245]
+    UseCandidate,               // 0x0025  USE-CANDIDATE   [RFC5245]
+    Padding,                    // 0x0026  PADDING [RFC5780]
+    ResponsePort,               // 0x0027  RESPONSE-PORT   [RFC5780]
+    ConnectionID,               // 0x002A  CONNECTION-ID   [RFC6062]
+    Software,                   // 0x8022  SOFTWARE    [RFC5389]
+    AlternateServer,            // 0x8023  ALTERNATE-SERVER    [RFC5389]
     TransactionTransmitCounter, // 0x8025  TRANSACTION_TRANSMIT_COUNTER    [RFC7982]
     CacheTimeout,               // 0x8027  CACHE-TIMEOUT   [RFC5780]
     FingerPrint,                // 0x8028  FINGERPRINT [RFC5389]
@@ -151,11 +149,11 @@ pub enum AttributeType {
     MobilityTicket,             // 0x8030  MOBILITY-TICKET [RFC8016]
     CiscoStunFlowData,          // 0xC000  CISCO-STUN-FLOWDATA [Dan_Wing]
     ENFFlowDescription,         // 0xC001  ENF-FLOW-DESCRIPTION    [Pål_Erik_Martinsen]
-    ENFNetworkStatus            // 0xC002  ENF-NETWORK-STATUS  [Pål_Erik_Martinsen]
+    ENFNetworkStatus,           // 0xC002  ENF-NETWORK-STATUS  [Pål_Erik_Martinsen]
 }
 
 impl ToString for AttributeType {
-    fn to_string (&self) -> String {
+    fn to_string(&self) -> String {
         match *self {
             AttributeType::MappedAddress => "MAPPED-ADDRESS".to_owned(),
             AttributeType::ResponseAddress => "RESPONSE-ADDRESS".to_owned(),
@@ -203,29 +201,29 @@ impl ToString for AttributeType {
             AttributeType::MobilityTicket => "MOBILITY-TICKET".to_owned(),
             AttributeType::CiscoStunFlowData => "CISCO-STUN-FLOWDATA".to_owned(),
             AttributeType::ENFFlowDescription => "ENF-FLOW-DESCRIPTION".to_owned(),
-            AttributeType::ENFNetworkStatus => "ENF-NETWORK-STATUS".to_owned()
+            AttributeType::ENFNetworkStatus => "ENF-NETWORK-STATUS".to_owned(),
         }
     }
 }
 
 impl AttributeType {
-    pub fn from_u32 (n: u32) -> Result<Self, &'static str> {
+    pub fn from_u32(n: u32) -> Result<Self, &'static str> {
         match n {
             0x0000
-            | 0x000E ... 0x000F
+            | 0x000E..=0x000F
             | 0x0011
             | 0x0023
-            | 0x0028 ... 0x0029
+            | 0x0028..=0x0029
             | 0x0030
             | 0x8024
             | 0x8026 => Err("Reserved"),
-            0x001C ... 0x001F
-            | 0x002B ... 0x002F
-            | 0x0031 ... 0x7FFF
-            | 0x8000 ... 0x8021
+            0x001C..=0x001F
+            | 0x002B..=0x002F
+            | 0x0031..=0x7FFF
+            | 0x8000..=0x8021
             | 0x802F
-            | 0x8031 ... 0xBFFF
-            | 0xC003 ... 0xFFFF => Err("Unassigned"),
+            | 0x8031..=0xBFFF
+            | 0xC003..=0xFFFF => Err("Unassigned"),
             0x0001 => Ok(AttributeType::MappedAddress),
             0x0002 => Ok(AttributeType::ResponseAddress),
             0x0003 => Ok(AttributeType::ChangeRequest),
@@ -273,66 +271,70 @@ impl AttributeType {
             0xC000 => Ok(AttributeType::CiscoStunFlowData),
             0xC001 => Ok(AttributeType::ENFFlowDescription),
             0xC002 => Ok(AttributeType::ENFNetworkStatus),
-            _      => Err("Range(0x0000 ... 0xFFFF and ).")
+            _ => Err("Range(0x0000 ..= 0xFFFF and )."),
         }
     }
     pub fn from_bytes(bytes: &[u8]) -> Result<Self, &'static str> {
-        let hex_str = bytes[..2].iter().map(|b| format!("{:02X}", b)).collect::<Vec<String>>().join("");
-        let number  = match u32::from_str_radix(hex_str.as_str(), 16){
+        let hex_str = bytes[..2]
+            .iter()
+            .map(|b| format!("{:02X}", b))
+            .collect::<Vec<String>>()
+            .join("");
+        let number = match u32::from_str_radix(hex_str.as_str(), 16) {
             Ok(number) => number,
-            Err(_) => return Err("Attribute Type parse error.")
+            Err(_) => return Err("Attribute Type parse error."),
         };
         AttributeType::from_u32(number)
     }
     pub fn to_u32(&self) -> u32 {
         match *self {
-            AttributeType::MappedAddress    => 0x0001,
-            AttributeType::ResponseAddress  => 0x0002,
-            AttributeType::ChangeRequest    => 0x0003,
-            AttributeType::SourceAddress    => 0x0004,
-            AttributeType::ChangedAddress   => 0x0005,
-            AttributeType::UserName         => 0x0006,
-            AttributeType::Password         => 0x0007,
+            AttributeType::MappedAddress => 0x0001,
+            AttributeType::ResponseAddress => 0x0002,
+            AttributeType::ChangeRequest => 0x0003,
+            AttributeType::SourceAddress => 0x0004,
+            AttributeType::ChangedAddress => 0x0005,
+            AttributeType::UserName => 0x0006,
+            AttributeType::Password => 0x0007,
             AttributeType::MessageIntegrity => 0x0008,
-            AttributeType::ErrorCode        => 0x0009,
+            AttributeType::ErrorCode => 0x0009,
             AttributeType::UnknownAttribute => 0x000A,
-            AttributeType::ReflectedFrom    => 0x000B,
-            AttributeType::ChannelNumber    => 0x000C,
-            AttributeType::LifeTime         => 0x000D,
-            AttributeType::BandWidth        => 0x0010,
-            AttributeType::XorPeerAddress   => 0x0012,
-            AttributeType::Data             => 0x0013,
-            AttributeType::Realm            => 0x0014,
-            AttributeType::Nonce            => 0x0015,
-            AttributeType::XorRelayedAddress    => 0x0016,
+            AttributeType::ReflectedFrom => 0x000B,
+            AttributeType::ChannelNumber => 0x000C,
+            AttributeType::LifeTime => 0x000D,
+            AttributeType::BandWidth => 0x0010,
+            AttributeType::XorPeerAddress => 0x0012,
+            AttributeType::Data => 0x0013,
+            AttributeType::Realm => 0x0014,
+            AttributeType::Nonce => 0x0015,
+            AttributeType::XorRelayedAddress => 0x0016,
             AttributeType::RequestAddressFamily => 0x0017,
-            AttributeType::EvenPort             => 0x0018,
-            AttributeType::RequestedTransport   => 0x0019,
-            AttributeType::DontFragment         => 0x001A,
-            AttributeType::AccessToken          => 0x001B,
-            AttributeType::XorMappedAddress     => 0x0020,
-            AttributeType::TimerVal             => 0x0021,
-            AttributeType::ReservationToken     => 0x0022,
-            AttributeType::Priority             => 0x0024,
-            AttributeType::UseCandidate         => 0x0025,
-            AttributeType::Padding              => 0x0026,
-            AttributeType::ResponsePort         => 0x0027,
-            AttributeType::ConnectionID         => 0x002A,
-            AttributeType::Software             => 0x8022,
-            AttributeType::AlternateServer      => 0x8023,
+            AttributeType::EvenPort => 0x0018,
+            AttributeType::RequestedTransport => 0x0019,
+            AttributeType::DontFragment => 0x001A,
+            AttributeType::AccessToken => 0x001B,
+            AttributeType::XorMappedAddress => 0x0020,
+            AttributeType::TimerVal => 0x0021,
+            AttributeType::ReservationToken => 0x0022,
+            AttributeType::Priority => 0x0024,
+            AttributeType::UseCandidate => 0x0025,
+            AttributeType::Padding => 0x0026,
+            AttributeType::ResponsePort => 0x0027,
+            AttributeType::ConnectionID => 0x002A,
+            AttributeType::Software => 0x8022,
+            AttributeType::AlternateServer => 0x8023,
             AttributeType::TransactionTransmitCounter => 0x8025,
-            AttributeType::CacheTimeout         => 0x8027,
-            AttributeType::FingerPrint          => 0x8028,
-            AttributeType::ICEControlled        => 0x8029,
-            AttributeType::ICEControlling       => 0x802A,
-            AttributeType::ResponseOrigin       => 0x802B,
-            AttributeType::OtherAddress         => 0x802C,
-            AttributeType::ECNCheckStun         => 0x802D,
+            AttributeType::CacheTimeout => 0x8027,
+            AttributeType::FingerPrint => 0x8028,
+            AttributeType::ICEControlled => 0x8029,
+            AttributeType::ICEControlling => 0x802A,
+            AttributeType::ResponseOrigin => 0x802B,
+            AttributeType::OtherAddress => 0x802C,
+            AttributeType::ECNCheckStun => 0x802D,
             AttributeType::ThirdPartyAuthorization => 0x802E,
-            AttributeType::MobilityTicket          => 0x8030,
-            AttributeType::CiscoStunFlowData       => 0xC000,
-            AttributeType::ENFFlowDescription      => 0xC001,
-            AttributeType::ENFNetworkStatus        => 0xC002
+            AttributeType::MobilityTicket => 0x8030,
+            AttributeType::CiscoStunFlowData => 0xC000,
+            AttributeType::ENFFlowDescription => 0xC001,
+            AttributeType::ENFNetworkStatus => 0xC002,
         }
     }
 }
@@ -351,78 +353,80 @@ pub enum Attribute {
 }
 
 impl Attribute {
-    pub fn from_bytes(attr_type: AttributeType, bytes: &[u8]) -> Result<Self, &'static str>{
+    pub fn from_bytes(_attr_type: AttributeType, _bytes: &[u8]) -> Result<Self, &'static str> {
         unimplemented!();
     }
     pub fn into_bytes(&self) -> Vec<u8> {
-        /**
+        /*
             type  : AttributeType,  // 16 bits
             length: u32,            // 16 bits
             value : Attribute       // 32 bits ( Or More. )
-        **/
+        */
         match *self {
             Attribute::MappedAddress(ref socket_addr) => {
                 // type
                 let attribute_type = 0x0001u16;
-                let attribute_type_bits = format!("{:016b}", attribute_type );
+                let attribute_type_bits = format!("{:016b}", attribute_type);
 
                 let mut bytes: Vec<u8> = vec![
-                    u8::from_str_radix(&attribute_type_bits[0.. 8], 2).unwrap(),
-                    u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap()
+                    u8::from_str_radix(&attribute_type_bits[0..8], 2).unwrap(),
+                    u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap(),
                 ];
-                
+
                 // value
                 let family = match *socket_addr {
                     SocketAddr::V4(_) => 0x01u8,
-                    SocketAddr::V6(_) => 0x02u8
+                    SocketAddr::V6(_) => 0x02u8,
                 };
                 let port: u16 = socket_addr.port();
                 let address = format!("{}", socket_addr.ip());
-                
+
                 let mut attribute_value: Vec<u8> = vec![0, family];
                 let port_bits = format!("{:016b}", port);
 
-                attribute_value.push(u8::from_str_radix(&port_bits[0.. 8], 2).unwrap());
+                attribute_value.push(u8::from_str_radix(&port_bits[0..8], 2).unwrap());
                 attribute_value.push(u8::from_str_radix(&port_bits[8..16], 2).unwrap());
                 attribute_value.extend(address.into_bytes());
 
                 // length
-                let attribute_length_bits = format!("{:016b}", attribute_value.len() as u16 );
+                let _attribute_length_bits = format!("{:016b}", attribute_value.len() as u16);
 
-                bytes.push(u8::from_str_radix(&attribute_type_bits[0.. 8], 2).unwrap());
+                bytes.push(u8::from_str_radix(&attribute_type_bits[0..8], 2).unwrap());
                 bytes.push(u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap());
 
                 bytes.extend(attribute_value);
                 bytes
-            },
+            }
             Attribute::ErrorCode(ref error_code) => {
                 let attribute_type = 0x0009u16;
-                let attribute_type_bits = format!("{:016b}", attribute_type );
+                let attribute_type_bits = format!("{:016b}", attribute_type);
 
                 let mut bytes: Vec<u8> = vec![
-                    u8::from_str_radix(&attribute_type_bits[0.. 8], 2).unwrap(),
-                    u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap()
+                    u8::from_str_radix(&attribute_type_bits[0..8], 2).unwrap(),
+                    u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap(),
                 ];
 
                 // value
-                let mut attribute_value:Vec<u8>  = vec![0, 0];
-                let code   = error_code.to_u32();
-                let class  = (code/100) as u8; // 3 bits
-                let number = (code%100) as u8; // 8 bits
-                attribute_value.push(u8::from_str_radix(format!("{:02x}", class).as_str(), 10).unwrap());
-                attribute_value.push(u8::from_str_radix(format!("{:02x}", number).as_str(), 10).unwrap());
+                let mut attribute_value: Vec<u8> = vec![0, 0];
+                let code = error_code.to_u32();
+                let class = (code / 100) as u8; // 3 bits
+                let number = (code % 100) as u8; // 8 bits
+                attribute_value
+                    .push(u8::from_str_radix(format!("{:02x}", class).as_str(), 10).unwrap());
+                attribute_value
+                    .push(u8::from_str_radix(format!("{:02x}", number).as_str(), 10).unwrap());
                 attribute_value.extend(error_code.to_bytes());
 
                 // length
-                let attribute_length_bits = format!("{:016b}", attribute_value.len() as u16 );
+                let _attribute_length_bits = format!("{:016b}", attribute_value.len() as u16);
 
-                bytes.push(u8::from_str_radix(&attribute_type_bits[0.. 8], 2).unwrap());
+                bytes.push(u8::from_str_radix(&attribute_type_bits[0..8], 2).unwrap());
                 bytes.push(u8::from_str_radix(&attribute_type_bits[8..16], 2).unwrap());
 
                 bytes.extend(attribute_value);
                 bytes
-            },
-            _ => unimplemented!()
+            }
+            _ => unimplemented!(),
         }
     }
 }

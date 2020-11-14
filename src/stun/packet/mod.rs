@@ -1,32 +1,25 @@
-
-use std::str::FromStr;
-use std::string::ToString;
-use std::convert::AsRef;
-
-use std::io::{Read, Write};
-
-pub mod header;
 pub mod attribute;
 pub mod error_code;
+pub mod header;
 
 pub mod address;
 
-pub use self::header::{Header, Method, Class};
-pub use self::attribute::{AttributeType, Attribute};
 pub use self::address::{Address, Family};
+pub use self::attribute::{Attribute, AttributeType};
 pub use self::error_code::ErrorCode;
+pub use self::header::{Class, Header, Method};
 
 #[derive(Debug)]
 pub struct Packet {
-    header    : Header,
-    attributes: Vec<Attribute>
+    header: Header,
+    attributes: Vec<Attribute>,
 }
 
 impl Packet {
     pub fn new(header: Header) -> Result<Self, &'static str> {
         Ok(Packet {
-            header    : header,
-            attributes: Vec::new()
+            header: header,
+            attributes: Vec::new(),
         })
     }
     pub fn from_bytes(&self) -> Result<Self, &'static str> {
