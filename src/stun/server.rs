@@ -64,13 +64,16 @@ pub fn tcp_server(host: &str) {
                         ) {
                             Ok(size) => {
                                 if size > 0 {
-                                    stream.write(&response[..size]);
+                                    match stream.write(&response[..size]) {
+                                        Ok(_size) => {},
+                                        Err(e) => println!("[Error] {:?}", e)
+                                    }
                                 }
                             }
-                            Err(_) => {}
+                            Err(e) => println!("[Error] {:?}", e),
                         }
                     }
-                    Err(_) => {}
+                    Err(e) => println!("[Error] {:?}", e),
                 };
             }
             Err(e) => println!("[Error] {:?}", e),
@@ -93,17 +96,18 @@ pub fn udp_server(host: &str) {
                 match handler(&msg, &mut response, &peer_socket_addr, &socket_addr) {
                     Ok(size) => {
                         if size > 0 {
-                            socket.send_to(&response[..size], &peer_socket_addr);
+                            match socket.send_to(&response[..size], &peer_socket_addr) {
+                                Ok(_size) => {},
+                                Err(e) => println!("[Error] {:?}", e),
+                            }
                         }
                     }
-                    Err(_) => {
-                    }
+                    Err(e) => println!("[Error] {:?}", e),
                 }
             }
             Err(e) => println!("[Error] {:?}", e),
         };
     }
-    drop(socket);
 }
 
 pub fn run(host: &str, protocol: &str) {
